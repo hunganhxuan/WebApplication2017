@@ -1,0 +1,22 @@
+﻿@model WebApplication7.Models.Article
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Header</h2>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <div class="jumbotron">
+            @Html.DisplayFor(c => c.Content)
+        </div>
+    </div>
+</body>
+</html>
+

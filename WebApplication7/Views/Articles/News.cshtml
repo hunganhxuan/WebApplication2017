@@ -1,0 +1,36 @@
+﻿@model IEnumerable<WebApplication7.Models.Article>
+@{
+    ViewBag.Title = "News";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>News</h2>
+
+<div class="row">
+    <div>
+        @foreach (var news in Model)
+        {
+            <div class="col-md-3">
+                <div class="news">
+                    <a href="/Articles/News?id=@news.Id">
+                        <div class="article">
+                            <div class="thumb" style="background-image: url('../../Content/Image/@news.Image');"></div>
+                            <div class="title">@Html.ActionLink(news.Header, "Details", new { id = news.Id })</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<style>
+.news {
+    width: 100%;
+    height: auto;
+    padding: 5px;
+    background-color: #e6e6e6;
+    margin-top: 10px;
+}
+</style>
