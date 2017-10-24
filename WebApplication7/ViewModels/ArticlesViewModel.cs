@@ -9,6 +9,7 @@ namespace WebApplication7.ViewModels
 {
     public class ArticlesViewModel
     {
+        public int Id { get; set; }
         [Required]
         public string Header { get; set; }
         [Required]

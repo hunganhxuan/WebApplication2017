@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using WebApplication7.Models;
 using WebApplication7.ViewModels;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity;
 
 namespace WebApplication7.Controllers
 {
@@ -90,7 +91,8 @@ namespace WebApplication7.Controllers
                 Content = article.Content,
                 DateTime = article.DateTime,
                 CategoryId = article.CategoryId,
-                Image = article.Image
+                Image = article.Image,
+                Id = article.Id
             };
 
             if (viewModel == null)
@@ -104,7 +106,24 @@ namespace WebApplication7.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ArticlesViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                viewModel.Categories = _dbContext.Categories.ToList();
+                return View("Create", viewModel);
+            }
+
+            var article = _dbContext.Articles.Single(c => c.Id == viewModel.Id);
+
+            article.DateTime = DateTime.Now;
+            article.CategoryId = viewModel.CategoryId;
+            article.Header = viewModel.Header;
+            article.Content = viewModel.Content;
+            article.Image = viewModel.Image;
+
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("Manage", "Articles");
+            /*if (ModelState.IsValid)
             {
                 var article = new Article
                 {
@@ -119,7 +138,7 @@ namespace WebApplication7.Controllers
                 _dbContext.SaveChanges();
                 return RedirectToAction("News");
             }
-            return View(viewModel);
+            return View(viewModel);*/
         }
 
         public ActionResult Delete(byte? id)
