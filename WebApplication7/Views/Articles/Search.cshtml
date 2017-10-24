@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<WebApplication7.Models.Article>
 @{
     ViewBag.Title = "Search";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,3 +6,38 @@
 
 <h2>Search</h2>
 
+@using (Html.BeginForm("Search", "Articles", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-4">
+                <input type="text" name="searchString" />
+            </div>
+            <div class="col-lg-4">
+                <button type="submit">Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="table-responsive">
+    <table class="table table-triped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Header</th>
+                <th>Content</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>#</th>
+                    <th>@item.Header</th>
+                    <th>@item.Content</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

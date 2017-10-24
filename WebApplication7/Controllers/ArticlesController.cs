@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace WebApplication7.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ArticlesController : Controller
     {
         public readonly ApplicationDbContext _dbContext;
@@ -180,28 +181,53 @@ namespace WebApplication7.Controllers
         {
             ViewBag.Message = "Your sport page.";
 
-            return View();
+            var upcomingNews = _dbContext.Articles
+                .Include(c => c.Category)
+                .Where(c => c.CategoryId == 2);
+
+            return View(upcomingNews);
         }
 
         public ActionResult Weather()
         {
             ViewBag.Message = "Your application weather page.";
 
-            return View();
+            var upcomingNews = _dbContext.Articles
+                .Include(c => c.Category)
+                .Where(c => c.CategoryId == 3);
+
+            return View(upcomingNews);
         }
 
         public ActionResult Music()
         {
             ViewBag.Message = "Your application music page.";
 
-            return View();
+            var upcomingNews = _dbContext.Articles
+                .Include(c => c.Category)
+                .Where(c => c.CategoryId == 4);
+
+            return View(upcomingNews);
         }
 
-        public ActionResult Search()
+        public ActionResult Search(string searchString)
         {
             ViewBag.Message = "Your application search page.";
+            
+            var listModel = new ArticlesController();
+            var model = listModel.GetArticle(searchString);
 
-            return View();
+            return View(model);
+        }
+
+        public IEnumerable<Article> GetArticle(string searchString)
+        {
+            IQueryable<Article> articles = _dbContext.Articles;
+            if (searchString != null)
+            {
+                articles = articles.Where(p => p.Header.Contains(searchString));
+            }
+            return articles;
         }
     }
 }
